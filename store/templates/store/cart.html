@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+</head>
+<body>
+    <h1>Your Shopping Cart</h1>
+    <a href="{% url 'home' %}">🏠 Continue Shopping</a>
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                {{ item.product.name }} ({{ item.quantity }}) - ₹{{ item.subtotal }}
+            </li>
+        {% endfor %}
+    </ul>
+    <h3>Total: ₹{{ total }}</h3>
+</body>
+</html>
