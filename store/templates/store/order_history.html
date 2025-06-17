@@ -1,0 +1,28 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+</head>
+<body>
+    <h2>My Order History</h2>
+
+    {% if orders %}
+        <ul>
+        {% for order in orders %}
+            <li>
+                <strong>{{ order.product.title }}</strong><br>
+                Quantity: {{ order.quantity }}<br>
+                Total: ₹{{ order.quantity|multiply:order.product.price }}<br>
+                Address: {{ order.address }}<br>
+                Phone: {{ order.phone }}<br>
+                <hr>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+</body>
+</html>

@@ -32,3 +32,69 @@ def cart_view(request):
         })
 
     return render(request, 'store/cart.html', {'cart_items': cart_items, 'total': total})
+
+from django.contrib.auth import authenticate, login, logout
+from .forms import SignUpForm
+from django.contrib.auth.forms import AuthenticationForm
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request, 'store/signup.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'store/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Order
+
+@login_required
+def checkout(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
+
+        product = get_object_or_404(Product, id=product_id)
+
+        order = Order(
+            user=request.user,
+            product=product,
+            quantity=quantity,
+            address=address,
+            phone=phone,
+        )
+        order.save()
+
+        messages.success(request, 'Order placed successfully!')
+        return redirect('home')
+
+    product_id = request.GET.get('product_id')
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'store/checkout.html', {'product': product})
+
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-id')
+    return render(request, 'store/order_history.html', {'orders': orders})

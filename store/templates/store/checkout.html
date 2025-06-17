@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+</head>
+<body>
+    <h2>Checkout</h2>
+
+    <p><strong>Product:</strong> {{ product.title }}</p>
+    <p><strong>Price:</strong> ₹{{ product.price }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        
+        <label>Quantity:</label>
+        <input type="number" name="quantity" value="1" min="1"><br><br>
+
+        <label>Address:</label><br>
+        <textarea name="address" rows="3" required></textarea><br><br>
+
+        <label>Phone:</label><br>
+        <input type="text" name="phone" required><br><br>
+
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+</html>
