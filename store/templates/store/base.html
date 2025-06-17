@@ -3,123 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}ShopEase{% endblock %}</title>
-    {% load static %}
     <style>
-    /* Reset and basic styles */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: sans-serif; }
-
-    /* Navbar container */
-    .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2rem;
-      background: #333;
-      color: #fff;
-      position: relative;
-    }
-    .navbar .brand {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    /* Desktop menu */
-    .navbar nav {
-      display: flex;
-      gap: 1.5rem;
-    }
-    .navbar nav a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1rem;
-    }
-    .navbar .cart {
-      font-size: 1.2rem;
-      margin-left: 1rem;
-      cursor: pointer;
-    }
-
-    /* Hamburger button (mobile) */
-    .navbar .hamburger {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* Side‑menu (mobile) */
-    .side-menu {
-      position: fixed;
-      top: 0; right: -250px;
-      width: 250px; height: 100%;
-      background: #444;
-      padding: 2rem;
-      transition: right 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .side-menu a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.1rem;
-    }
-    .side-menu.show {
-      right: 0;
-    }
-    .side-menu .close-btn {
-      align-self: flex-end;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* Responsive breakpoint */
-    @media (max-width: 768px) {
-      .navbar nav, .navbar .cart {
-        display: none;
-      }
-      .navbar .hamburger {
-        display: block;
-      }
-    }
-  </style>
+        /* same style as before (topbar, .nav-links, etc.) */
+    </style>
+</head>
 <body>
+    <!-- NAVBAR -->
+    <div class="topbar">
+        <div class="container">
+            <a href="{% url 'home' %}" class="logo">ShopEase</a>
+            <nav class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'shop' %}">Shop</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'contact' %}">Contact</a>
+                <a href="{% url 'cart_view' %}">🛒 Cart</a>
+            </nav>
+        </div>
+    </div>
 
-<header class="navbar">
-    <div class="brand">ShopEase</div>
-
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Shop</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </nav>
-
-    <div class="cart">🛒</div>
-    <div class="hamburger">☰</div>
-  </header>
-
-  <aside class="side-menu" id="sideMenu">
-    <div class="close-btn" id="closeBtn">×</div>
-    <a href="#">Home</a>
-    <a href="#">Shop</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-    <a href="#">🛒 Cart</a>
-  </aside>
-
-  <script>
-    const sideMenu = document.getElementById('sideMenu');
-    const hamburger = document.querySelector('.hamburger');
-    const closeBtn  = document.getElementById('closeBtn');
-
-    hamburger.addEventListener('click', () => {
-      sideMenu.classList.add('show');
-    });
-    closeBtn.addEventListener('click', () => {
-      sideMenu.classList.remove('show');
-    });
-  </script>
-
+    <!-- PAGE CONTENT -->
+    {% block content %}{% endblock %}
 </body>
 </html>

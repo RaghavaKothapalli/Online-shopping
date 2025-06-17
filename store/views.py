@@ -98,3 +98,29 @@ def checkout(request):
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-id')
     return render(request, 'store/order_history.html', {'orders': orders})
+
+from django.shortcuts import render
+
+def shop(request):
+    return render(request, 'store/shop.html')
+def about(request):
+    return render(request, 'store/about.html')
+def contact(request):
+    return render(request, 'store/contact.html')
+# store/views.py
+def cart_view(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+    total = 0
+
+    for product_id, quantity in cart.items():
+        product = Product.objects.get(id=product_id)
+        total += product.price * quantity
+        cart_items.append({
+            'product': product,
+            'quantity': quantity,
+            'subtotal': product.price * quantity
+        })
+
+    return render(request, 'store/cart.html', {'cart_items': cart_items, 'total': total})
+

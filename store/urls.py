@@ -10,5 +10,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('checkout/', views.checkout, name='checkout'),
     path('orders/', views.order_history, name='order_history'),
-
+    path('shop/', views.shop, name='shop'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.about, name='contact'),
+    path('cart/', views.cart_view, name='cart_view'),
 ]
