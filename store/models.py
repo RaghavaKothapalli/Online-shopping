@@ -2,13 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Product(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
+    name = models.CharField(max_length=100, default="general")
     price = models.FloatField()
-    image = models.ImageField(upload_to='uploads/products/')
+    rating = models.IntegerField(default=5)
+    image = models.ImageField(upload_to="products/", default="products/default.png")
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Order(models.Model):
