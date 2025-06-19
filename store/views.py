@@ -6,16 +6,18 @@ def home(request):
     return render(request, 'store/home.html', {'products': products})
 
 def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+    product = Product.objects.get(id=product_id)
+
+    # Add the product to the session-based cart or DB (your existing logic)
     cart = request.session.get('cart', {})
-
-    if str(product_id) in cart:
-        cart[str(product_id)] += 1
-    else:
-        cart[str(product_id)] = 1
-
+    cart[str(product_id)] = cart.get(str(product_id), 0) + 1
     request.session['cart'] = cart
-    return redirect('home')
+
+    # Redirect to the previous page or fallback to 'shop'
+    referer = request.META.get('HTTP_REFERER')
+    if referer:
+        return redirect(referer)
+    return redirect('shop')  # fallback if no referer
 
 def cart_view(request):
     cart = request.session.get('cart', {})
@@ -124,3 +126,6 @@ def cart_view(request):
 
     return render(request, 'store/cart.html', {'cart_items': cart_items, 'total': total})
 
+def shop(request):
+    products = Product.objects.all()  # Fetch all products
+    return render(request, 'store/shop.html', {'products': products})
