@@ -170,6 +170,18 @@
       padding: 20px;
     }
   }
+  .btn {
+  display: inline-block;
+  background-color: #fcd58f;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
 </style>
 
 <!-- Hero Section -->
@@ -179,7 +191,7 @@
     <h1>Super value deals</h1>
     <h2>On all products</h2>
     <p>Save more with coupons & up to 70% off!</p>
-    <button>Shop Now</button>
+    <a href="{% url 'shop' %}" class="btn">Shop Now</a>
   </div>
 </div>
 
@@ -218,10 +230,34 @@
         <img src="{{ product.image.url }}" alt="{{ product.name }}">
         <div class="title">{{ product.name }}</div>
         <div class="stars">★★★★★</div>
-        <div class="price">${{ product.price }}</div>
-        <a href="{% url 'add_to_cart' product.id %}" class="cart-btn" title="Add to cart">🛒</a>
+        <div class="price">${{ product.price }}</div><a href="{% url 'add_to_cart' product.id %}" class="cart-btn add-to-cart-btn" data-id="{{ product.id }}" title="Add to cart">🛒</a>
+
       </div>
     {% endfor %}
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll('.add-to-cart-btn');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();  // 🛑 Prevent default link behavior (reload)
+
+        const productId = this.dataset.id;
+        fetch(`/add-to-cart/${productId}/`)
+          .then(response => {
+            if (response.ok) {
+              console.log("Added to cart");
+              // Optional: show toast or cart count update
+            } else {
+              alert("Failed to add to cart.");
+            }
+          });
+      });
+    });
+  });
+</script>
+
 {% endblock %}
