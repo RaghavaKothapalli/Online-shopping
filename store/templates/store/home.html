@@ -5,7 +5,7 @@
   /* Hero Banner */
   .hero-banner {
     width: 100vw;
-    min-height: 400px;
+    min-height: 600px;
     background: url("{% static 'store/images/banner2.jpg' %}") no-repeat center center/cover;
     position: relative;
     display: flex;
@@ -13,7 +13,13 @@
     justify-content: center;
     margin: 0;
     padding: 0;
+    overflow: hidden;
   }
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
   .hero-overlay {
     text-align: center;
